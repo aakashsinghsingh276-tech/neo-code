@@ -2,9 +2,8 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Neo Code IDE — Next-Gen AI Code Studio</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     
@@ -16,12 +15,13 @@
                         sans: ['Inter', 'sans-serif'],
                         mono: ['Fira Code', 'monospace'],
                     },
-                    colors: {
-                        brand: {
-                            50: '#eff6ff',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
+                    animation: {
+                        'glow-pulse': 'glowPulse 2.5s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        glowPulse: {
+                            '0%, 100%': { filter: 'drop-shadow(0 0 8px rgba(59,130,246,0.6))' },
+                            '50%': { filter: 'drop-shadow(0 0 22px rgba(59,130,246,0.95))' },
                         }
                     }
                 }
@@ -31,128 +31,119 @@
 
     <style>
         body { background-color: #030712; color: #f3f4f6; }
-        .bg-grid { background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px); background-size: 32px 32px; }
-        .glow-effect { box-shadow: 0 0 100px -20px rgba(0, 102, 255, 0.35); }
-        .button-glow { box-shadow: 0 0 25px rgba(37, 99, 235, 0.5); }
-        .button-glow:hover { box-shadow: 0 0 45px rgba(37, 99, 235, 0.85); }
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        .bg-grid { 
+            background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px); 
+            background-size: 28px 28px; 
+        }
+        .glow-effect { box-shadow: 0 0 120px -30px rgba(37, 99, 235, 0.45); }
+        .button-glow { 
+            box-shadow: 0 0 25px rgba(37, 99, 235, 0.45); 
+            transition: all 0.3s ease;
+        }
+        .button-glow:hover { 
+            box-shadow: 0 0 50px rgba(37, 99, 235, 0.85); 
+            transform: translateY(-1px);
+        }
+        .logo-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59,130,246,0.4) 0%, transparent 70%);
+            animation: logoAura 3s ease-in-out infinite;
+            z-index: -1;
+        }
+        @keyframes logoAura {
+            0%, 100% { opacity: 0.45; transform: scale(0.92); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #030712; }
         ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #374151; }
+        input:focus, textarea:focus, button:focus { outline: none; }
+        
+        /* Mobile header fix */
+        @media (max-width: 640px) {
+            .logo-img { width: 36px !important; height: 36px !important; }
+        }
     </style>
 </head>
 <body class="selection:bg-blue-500 selection:text-white font-sans antialiased overflow-x-hidden">
 
-    <!-- Ambient Glowing Background Elements -->
-    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[650px] bg-gradient-to-b from-blue-600/20 via-indigo-600/10 to-transparent blur-[140px] -z-10 pointer-events-none"></div>
-    <div class="fixed inset-0 bg-grid opacity-30 -z-10 pointer-events-none"></div>
+    <!-- Ambient Background -->
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-[700px] bg-gradient-to-b from-blue-600/25 via-indigo-600/10 to-transparent blur-[140px] -z-10 pointer-events-none"></div>
+    <div class="fixed inset-0 bg-grid opacity-40 -z-10 pointer-events-none"></div>
 
-    <!-- Navigation Header -->
-    <header class="sticky top-0 z-50 backdrop-blur-xl bg-gray-950/80 border-b border-gray-800/60">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center font-extrabold text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-200">
-                    &lt;/&gt;
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 backdrop-blur-xl bg-gray-950/80 border-b border-gray-800/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5 sm:gap-3 group">
+                <div class="logo-container">
+                    <img src="data:image/jpeg;base64,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" 
+                         alt="Neo Code Logo" 
+                         class="logo-img w-10 h-10 sm:w-11 sm:h-11 object-contain animate-glow-pulse group-hover:scale-110 transition-transform duration-300"
+                         style="filter: drop-shadow(0 0 12px rgba(59,130,246,0.75));">
                 </div>
-                <span class="font-black text-xl tracking-tight text-white flex items-center gap-2">
-                    Neo Code <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-mono">IDE</span>
+                <span class="font-black text-lg sm:text-xl tracking-tight text-white flex items-center gap-1.5 sm:gap-2">
+                    Neo Code 
+                    <span class="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/25 font-mono tracking-wide">IDE</span>
                 </span>
             </a>
 
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+            <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-gray-400">
                 <a href="#playground" class="text-blue-400 hover:text-white transition-colors font-semibold flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-blue-500 animate-ping"></span> Live Studio
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                    </span>
+                    Live Studio
                 </a>
                 <a href="#features" class="hover:text-white transition-colors">Features</a>
-                <a href="https://github.com/aakashsinghsingh276-tech/Neo-Code-IDE" target="_blank" class="hover:text-white transition-colors">GitHub Repo</a>
+                <a href="#ai" class="hover:text-white transition-colors">AI Engine</a>
+                <a href="https://github.com/aakashsinghsingh276-tech/Neo-Code-IDE" target="_blank" rel="noopener" class="hover:text-white transition-colors">GitHub</a>
             </nav>
 
             <a href="https://github.com/aakashsinghsingh276-tech/Neo-Code-IDE/releases/download/v0.1.0/Neo.Code.IDE.Setup.0.1.0.exe" 
                target="_blank" 
-               class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm rounded-xl transition-all button-glow flex items-center gap-2">
-                <span>Download App</span>
+               class="px-3.5 sm:px-5 py-2 sm:py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm rounded-xl transition-all button-glow flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <span>Download</span>
             </a>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative pt-10 pb-12 max-w-7xl mx-auto px-6 text-center flex flex-col items-center">
-        <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white max-w-4xl leading-[1.1] mb-6">
-            The Intelligent Code Editor Built for <span class="bg-gradient-to-r from-blue-400 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">Speed & AI</span>
+    <!-- Hero -->
+    <section class="relative pt-12 sm:pt-16 pb-8 max-w-7xl mx-auto px-4 sm:px-6 text-center flex flex-col items-center">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-400 text-xs font-medium mb-5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            v0.1.0 Now Available
+        </div>
+        
+        <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white max-w-4xl leading-[1.1] mb-5">
+            The Intelligent Code Editor Built for 
+            <span class="bg-gradient-to-r from-blue-400 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">Speed & AI</span>
         </h1>
-        <p class="text-base sm:text-lg text-gray-400 max-w-2xl mb-8 leading-relaxed">
-            AI Assistant se game ya app code maangein aur neeche <b>Localhost Server (Preview)</b> me instant run karke dekhein!
+        
+        <p class="text-sm sm:text-lg text-gray-400 max-w-2xl mb-8 leading-relaxed px-2">
+            AI Assistant se game ya app ka code maangein aur neeche 
+            <span class="text-blue-400 font-medium">Localhost Server (Preview)</span> me instant run karke dekhein!
         </p>
-    </section>
 
-    <!-- LIVE INTERACTIVE AI PLAYGROUND SECTION -->
-    <section id="playground" class="max-w-7xl mx-auto px-4 sm:px-6 mb-20">
-        <div class="w-full rounded-2xl border border-gray-800 bg-gray-950/95 backdrop-blur-2xl text-left overflow-hidden shadow-2xl glow-effect">
-            <!-- IDE Title Bar -->
-            <div class="px-4 py-3 bg-gray-900/90 border-b border-gray-800/80 flex flex-wrap items-center justify-between gap-2">
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
-                    <span class="w-3 h-3 rounded-full bg-yellow-500/80 inline-block"></span>
-                    <span class="w-3 h-3 rounded-full bg-green-500/80 inline-block"></span>
-                    <span class="ml-3 text-xs text-gray-400 font-mono">Workspace — main.js</span>
-                </div>
-                
-                <div class="flex items-center gap-3">
-                    <button id="runCodeBtn" onclick="runLiveCode()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-semibold rounded-lg transition flex items-center gap-1.5 shadow">
-                        ▶ Run Code
-                    </button>
-                    <span class="text-xs font-mono text-blue-400 bg-blue-950/50 px-2.5 py-1 rounded border border-blue-800/40">
-                        LocalHost:3000 Active
-                    </span>
-                </div>
-            </div>
-
-            <!-- Workspace Grid Split -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[500px]">
-                
-                <!-- AI Assistant Panel (Left) -->
-                <div class="lg:col-span-4 bg-gray-950 border-b lg:border-b-0 lg:border-r border-gray-800/80 p-4 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between pb-3 border-b border-gray-800 mb-4">
-                            <span class="text-xs font-bold font-mono text-blue-400 flex items-center gap-2">
-                                🤖 Neo AI Coding Engine
-                            </span>
-                        </div>
-
-                        <!-- Chat Messages Container -->
-                        <div id="aiChatBox" class="space-y-3 h-[250px] overflow-y-auto pr-1 text-xs font-mono">
-                            <div class="bg-blue-950/30 border border-blue-900/40 p-3 rounded-xl text-gray-300 leading-relaxed">
-                                <p class="text-blue-400 font-bold mb-1">✦ Neo AI:</p>
-                                Aap mujhse kisi bhi game ya app ka code maang sakte hain. Localhost preview panel me code instant execution dekhein!
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Input & Quick Action Buttons -->
-                    <div class="mt-4 pt-3 border-t border-gray-800/80 space-y-3">
-                        <div class="flex flex-wrap gap-1.5">
-                            <button onclick="triggerSnakeGame()" class="px-2.5 py-1 bg-blue-950 hover:bg-blue-900 border border-blue-800/60 text-[11px] text-blue-300 rounded-lg transition font-mono">🐍 Snake Game</button>
-                            <button onclick="triggerCounterApp()" class="px-2.5 py-1 bg-gray-900 hover:bg-blue-900/40 border border-gray-800 text-[11px] text-gray-300 rounded-lg transition font-mono">⚡ Counter App</button>
-                        </div>
-
-                        <div class="relative flex items-center">
-                            <input id="aiPromptInput" type="text" placeholder='Type e.g. "Snake game" or "Counter"...' 
-                                   onkeypress="if(event.key === 'Enter') submitCustomPrompt()"
-                                   class="w-full bg-gray-900 border border-gray-800 text-xs text-white rounded-xl pl-3 pr-10 py-2.5 focus:outline-none focus:border-blue-500 font-mono">
-                            <button onclick="submitCustomPrompt()" class="absolute right-2 p-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Code Editor & Localhost Browser Output (Right) -->
-                <div class="lg:col-span-8 flex flex-col justify-between bg-black/60">
-                    <div class="p-4 flex-1 flex flex-col">
-                        <div class="flex items-center justify-between text-xs text-gray-500 font-mono mb-2">
-                            <span>Interactive Code Workspace (HTML / JS / CSS)</span>
-                        </div>
-                        <textarea id="codeEditor" spellcheck="false" class="w-full h-[240px] bg-slate-950/80 border border-gray-800/80 rounded-xl p-4 font-mono text-xs sm:text-sm text-blue-300 focus:outline-none focus:border-blue-500/50 leading-relaxed resize-none shadow-inner">// Prompt write karein ya quick action buttons click karein</textarea>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md sm:max-w-none">
+            <a href="#playground" class="w-full sm:w-auto px-7 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all button-glow flex items-center justify-center gap-2">
+                Try Live Studio
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+            </a>
+            <a href="https://github.com/aakashsinghsingh276-tech/Neo-Code-IDE" target="_blank" rel="noopener"
+               class="w-full sm:w-auto px-7 py-3.5 bg-gray-900 hover:bg-gray-800 border border-gray-700 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.buttons click karein</textarea>
                     </div>
 
                     <!-- VIRTUAL LOCALHOST BROWSER PREVIEW -->
