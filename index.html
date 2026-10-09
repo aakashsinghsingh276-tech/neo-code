@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neo Code IDE — Next-Gen AI Code Studio</title>
+    <title>Neo Code IDE — Next-Gen AI Code & Game Studio</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     
@@ -17,26 +18,9 @@
                     },
                     colors: {
                         brand: {
-                            50: '#eff6ff',
-                            400: '#60a5fa',
                             500: '#3b82f6',
                             600: '#2563eb',
                             700: '#1d4ed8',
-                        }
-                    },
-                    animation: {
-                        'float': 'float 4s ease-in-out infinite',
-                        'glow-pulse': 'glowPulse 2.5s ease-in-out infinite',
-                        'spin-slow': 'spin 12s linear infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-8px)' },
-                        },
-                        glowPulse: {
-                            '0%, 100%': { filter: 'drop-shadow(0 0 8px rgba(59,130,246,0.6))' },
-                            '50%': { filter: 'drop-shadow(0 0 22px rgba(59,130,246,0.95))' },
                         }
                     }
                 }
@@ -46,133 +30,238 @@
 
     <style>
         body { background-color: #030712; color: #f3f4f6; }
-        .bg-grid { 
-            background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px); 
-            background-size: 28px 28px; 
-        }
-        .glow-effect { box-shadow: 0 0 120px -30px rgba(37, 99, 235, 0.45); }
-        .button-glow { 
-            box-shadow: 0 0 25px rgba(37, 99, 235, 0.45); 
-            transition: all 0.3s ease;
-        }
-        .button-glow:hover { 
-            box-shadow: 0 0 50px rgba(37, 99, 235, 0.85); 
-            transform: translateY(-1px);
-        }
-        .logo-container {
-            position: relative;
-        }
-        .logo-container::before {
-            content: '';
-            position: absolute;
-            inset: -12px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(59,130,246,0.35) 0%, transparent 70%);
-            animation: logoAura 3s ease-in-out infinite;
-            z-index: -1;
-        }
-        @keyframes logoAura {
-            0%, 100% { opacity: 0.5; transform: scale(0.95); }
-            50% { opacity: 1; transform: scale(1.08); }
-        }
-        .glass {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
+        .bg-grid { background-image: radial-gradient(rgba(59, 130, 246, 0.12) 1px, transparent 1px); background-size: 28px 28px; }
+        .glow-effect { box-shadow: 0 0 80px -15px rgba(59, 130, 246, 0.3); }
+        .button-glow { box-shadow: 0 0 25px rgba(37, 99, 235, 0.5); }
+        .button-glow:hover { box-shadow: 0 0 40px rgba(37, 99, 235, 0.85); }
+        .neon-logo { filter: drop-shadow(0 0 12px #3b82f6); }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #030712; }
         ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #374151; }
-        
-        /* Smooth focus rings */
-        input:focus, textarea:focus, button:focus {
-            outline: none;
-        }
     </style>
 </head>
 <body class="selection:bg-blue-500 selection:text-white font-sans antialiased overflow-x-hidden">
 
-    <!-- Ambient Background -->
-    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-[700px] bg-gradient-to-b from-blue-600/25 via-indigo-600/10 to-transparent blur-[140px] -z-10 pointer-events-none"></div>
+    <!-- Ambient Background Glows -->
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] bg-gradient-to-b from-blue-600/20 via-cyan-600/10 to-transparent blur-[140px] -z-10 pointer-events-none"></div>
     <div class="fixed inset-0 bg-grid opacity-40 -z-10 pointer-events-none"></div>
-    <div class="fixed bottom-0 right-0 w-96 h-96 bg-indigo-600/10 blur-[120px] -z-10 pointer-events-none"></div>
 
-    <!-- Navigation -->
-    <header class="sticky top-0 z-50 backdrop-blur-xl bg-gray-950/75 border-b border-gray-800/50">
-        <div class="max-w-7xl mx-auto px-5 sm:px-6 h-18 sm:h-20 flex items-center justify-between">
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 backdrop-blur-xl bg-gray-950/80 border-b border-gray-800/80">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
             <a href="#" class="flex items-center gap-3 group">
-                <div class="logo-container relative">
-                    <img src="neo-logo.png" 
-                         alt="Neo Code Logo" 
-                         class="w-11 h-11 object-contain animate-glow-pulse group-hover:scale-110 transition-transform duration-300"
-                         style="filter: drop-shadow(0 0 12px rgba(59,130,246,0.7));">
+                <div class="w-11 h-11 bg-gradient-to-br from-blue-900/60 to-black rounded-xl border border-blue-500/40 flex items-center justify-center p-2 shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-200">
+                    <!-- New Glowing Command Symbol Logo -->
+                    <svg class="w-full h-full text-blue-400 neon-logo" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 9a3 3 0 1 0-3-3h-2a3 3 0 1 0-3 3v2a3 3 0 1 0 3 3h2a3 3 0 1 0 3-3V9z"/>
+                        <path d="M9 9a3 3 0 1 0-3-3H4a3 3 0 1 0-3 3v2a3 3 0 1 0 3 3h2a3 3 0 1 0 3-3V9z" transform="rotate(-90 9 9)"/>
+                        <path d="M18 18a3 3 0 1 0-3-3h-2a3 3 0 1 0-3 3v2a3 3 0 1 0 3 3h2a3 3 0 1 0 3-3v-2z" transform="rotate(90 18 18)"/>
+                        <path d="M9 18a3 3 0 1 0-3-3H4a3 3 0 1 0-3 3v2a3 3 0 1 0 3 3h2a3 3 0 1 0 3-3v-2z" transform="rotate(180 9 18)"/>
+                    </svg>
                 </div>
                 <span class="font-black text-xl tracking-tight text-white flex items-center gap-2">
-                    Neo Code 
-                    <span class="text-[10px] sm:text-xs px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/25 font-mono tracking-wide">IDE</span>
+                    Neo Code <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 font-mono">IDE v0.1.4</span>
                 </span>
             </a>
 
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-                <a href="#playground" class="text-blue-400 hover:text-white transition-colors font-semibold flex items-center gap-1.5">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                    </span>
-                    Live Studio
+            <!-- Navigation Links -->
+            <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-300">
+                <a href="#arcade" class="text-blue-400 hover:text-white transition-colors font-semibold flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span> Live Game Studio
                 </a>
                 <a href="#features" class="hover:text-white transition-colors">Features</a>
-                <a href="#ai" class="hover:text-white transition-colors">AI Engine</a>
-                <a href="https://github.com/aakashsinghsingh276-tech/Neo-Code-IDE" target="_blank" rel="noopener" class="hover:text-white transition-colors">GitHub</a>
+                <a href="https://github.com/aakashsinghsingh276-tech/Neo-Code-IDE" target="_blank" class="hover:text-white transition-colors flex items-center gap-1.5">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
+                <a href="mailto:support@neocodeide.com" class="hover:text-white transition-colors flex items-center gap-1.5">
+                    <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    Contact Mail
+                </a>
             </nav>
 
-            <a href="https://github.com/aakashsinghsingh276-tech/Neo-Code-IDE/releases/download/v0.1.0/Neo.Code.IDE.Setup.0.1.0.exe" 
-               target="_blank" 
-               class="px-4 sm:px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm rounded-xl transition-all button-glow flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                <span class="hidden sm:inline">Download App</span>
-                <span class="sm:hidden">Download</span>
-            </a>
+            <!-- CTA Header Buttons -->
+            <div class="flex items-center gap-3">
+                <a href="https://github.com/aakashsinghsingh276-tech/Neo-Code-IDE" target="_blank" class="hidden sm:flex px-4 py-2 rounded-xl border border-gray-800 bg-gray-900/80 hover:bg-gray-800 text-xs font-semibold text-gray-300 transition">
+                    ★ Star on GitHub
+                </a>
+                <a href="https://github.com/aakashsinghsingh276-tech/Neo-Code-IDE/releases/download/v0.1.0/Neo.Code.IDE.Setup.0.1.0.exe" 
+                   target="_blank" 
+                   class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl transition-all button-glow flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    <span>Download App</span>
+                </a>
+            </div>
         </div>
     </header>
 
-    <!-- Hero -->
-    <section class="relative pt-14 sm:pt-20 pb-10 max-w-7xl mx-auto px-5 sm:px-6 text-center flex flex-col items-center">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-400 text-xs font-medium mb-6">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            v0.1.0 Now Available
+    <!-- Hero Section -->
+    <section class="relative pt-12 pb-14 max-w-7xl mx-auto px-6 text-center flex flex-col items-center">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-950/60 border border-blue-500/30 text-blue-400 text-xs font-medium mb-6 backdrop-blur-md">
+            <svg class="w-4 h-4 neon-logo" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Next-Gen AI Development Engine & Built-In Game Playground
         </div>
-        
-        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-white max-w-4xl leading-[1.08] mb-6">
-            The Intelligent Code Editor Built for 
-            <span class="bg-gradient-to-r from-blue-400 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">Speed & AI</span>
+
+        <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white max-w-4xl leading-[1.15] mb-6">
+            Write Code & Play Built-in <br/>
+            <span class="bg-gradient-to-r from-blue-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">Interactive Retro Games</span>
         </h1>
-        
-        <p class="text-base sm:text-lg text-gray-400 max-w-2xl mb-10 leading-relaxed">
-            AI Assistant se game ya app ka code maangein aur neeche 
-            <span class="text-blue-400 font-medium">Localhost Server (Preview)</span> me instant run karke dekhein!
+
+        <p class="text-base sm:text-lg text-gray-400 max-w-2xl mb-8 leading-relaxed">
+            AI se custom games and web apps code banwayein, ya niche diye gaye <b>Live Arcade Studio</b> me instant <b>Snake, Pong, Space Rocket, aur Tic-Tac-Toe</b> games ko Start & Play karke dekhein!
         </p>
 
+        <!-- Hero Actions -->
         <div class="flex flex-wrap items-center justify-center gap-4">
-            <a href="#playground" class="px-7 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all button-glow flex items-center gap-2">
-                Try Live Studio
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+            <a href="#arcade" class="px-7 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm rounded-xl transition-all button-glow flex items-center gap-2">
+                🎮 Start Playing Games Now
             </a>
-            <a href="https://github.com/aakashsinghsingh276-tech/Neo-Code-IDE" target="_blank" rel="noopener"
-               class="px-7 py-3.5 bg-gray-900 hover:bg-gray-800 border border-gray-700 text-white font-semibold rounded-xl transition-all flex items-center gap-2">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/></svg>
-                Star on GitHub
+            <a href="https://github.com/aakashsinghsingh276-tech/Neo-Code-IDE" target="_blank" class="px-6 py-3.5 bg-gray-900 border border-gray-800 hover:border-gray-700 text-gray-300 font-semibold text-sm rounded-xl transition flex items-center gap-2">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                GitHub Repository
+            </a>
+            <a href="mailto:support@neocodeide.com" class="px-6 py-3.5 bg-gray-900 border border-gray-800 hover:border-gray-700 text-gray-300 font-semibold text-sm rounded-xl transition flex items-center gap-2">
+                ✉️ Send Email
             </a>
         </div>
     </section>
 
-    <!-- LIVE INTERACTIVE AI PLAYGROUND -->
-    <section id="playground" class="max-w-7xl mx-auto px-4 sm:px-6 mb-24">
-        <div class="w-full rounded-2xl border border-gray-800/80 bg-gray-950/90 backdrop-blur-2xl text-left overflow-hidden shadow-2xl glow-effect">
+    <!-- LIVE INTERACTIVE AI & MULTI-GAME ARCADE SECTION -->
+    <section id="arcade" class="max-w-7xl mx-auto px-4 sm:px-6 mb-24">
+        <div class="w-full rounded-2xl border border-gray-800 bg-gray-950/95 backdrop-blur-2xl text-left overflow-hidden shadow-2xl glow-effect">
             
-            <!-- Title Bar -->
-            <div class="px-4 py-3 bg-gray-900/95 border-b border-gray-800/80 flex flex-wrap items-center justify-between gap-2">
+            <!-- IDE & Arcade Title Bar -->
+            <div class="px-4 py-3 bg-gray-900/90 border-b border-gray-800/80 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
+                    <span class="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
+                    <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
+                    <span class="ml-3 text-xs text-gray-300 font-mono flex items-center gap-2">
+                        <svg class="w-4 h-4 text-blue-400 neon-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 9a3 3 0 1 0-3-3h-2a3 3 0 1 0-3 3v2a3 3 0 1 0 3 3h2a3 3 0 1 0 3-3V9z"/></svg>
+                        Neo Game Arcade & Code Engine
+                    </span>
+                </div>
+                
+                <!-- Game Selector Tabs -->
+                <div class="flex items-center gap-1.5 overflow-x-auto py-1">
+                    <button onclick="switchGame('snake')" id="tab-snake" class="px-3 py-1 bg-blue-600 text-white font-mono text-xs font-semibold rounded-lg transition">🐍 Snake</button>
+                    <button onclick="switchGame('pong')" id="tab-pong" class="px-3 py-1 bg-gray-800 text-gray-300 hover:bg-gray-700 font-mono text-xs font-semibold rounded-lg transition">🏓 Pong</button>
+                    <button onclick="switchGame('space')" id="tab-space" class="px-3 py-1 bg-gray-800 text-gray-300 hover:bg-gray-700 font-mono text-xs font-semibold rounded-lg transition">🚀 Rocket Dodger</button>
+                    <button onclick="switchGame('tictactoe')" id="tab-tictactoe" class="px-3 py-1 bg-gray-800 text-gray-300 hover:bg-gray-700 font-mono text-xs font-semibold rounded-lg transition">❌⭕ Tic-Tac-Toe</button>
+                </div>
+            </div>
+
+            <!-- Workspace Grid Split -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[520px]">
+                
+                <!-- AI Assistant Panel (Left Side) -->
+                <div class="lg:col-span-4 bg-gray-950 border-b lg:border-b-0 lg:border-r border-gray-800/80 p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between pb-3 border-b border-gray-800 mb-4">
+                            <span class="text-xs font-bold font-mono text-blue-400 flex items-center gap-2">
+                                🤖 Neo AI Game Copilot
+                            </span>
+                            <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Active</span>
+                        </div>
+
+                        <!-- Chat Messages Container -->
+                        <div id="aiChatBox" class="space-y-3 h-[230px] overflow-y-auto pr-1 text-xs font-mono">
+                            <div class="bg-blue-950/40 border border-blue-900/50 p-3 rounded-xl text-gray-300 leading-relaxed">
+                                <p class="text-blue-400 font-bold mb-1 flex items-center gap-1">
+                                    ✦ Neo AI Assistant:
+                                </p>
+                                Welcome! Aap game switch karke **"Start Game"** click karein. Aap AI prompt box se bhi kisi game/app ka code generate karke test kar sakte hain!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input & Quick Action Game Launcher -->
+                    <div class="mt-4 pt-3 border-t border-gray-800/80 space-y-3">
+                        <div class="text-[11px] text-gray-400 font-mono flex items-center justify-between">
+                            <span>Quick Game Selectors:</span>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="switchGame('snake')" class="px-2.5 py-1 bg-blue-950/80 hover:bg-blue-900 border border-blue-800/60 text-[11px] text-blue-300 rounded-lg transition font-mono">🐍 Snake Game</button>
+                            <button onclick="switchGame('pong')" class="px-2.5 py-1 bg-gray-900 hover:bg-blue-900/40 border border-gray-800 text-[11px] text-gray-300 rounded-lg transition font-mono">🏓 Retro Pong</button>
+                            <button onclick="switchGame('space')" class="px-2.5 py-1 bg-gray-900 hover:bg-blue-900/40 border border-gray-800 text-[11px] text-gray-300 rounded-lg transition font-mono">🚀 Space Dodger</button>
+                            <button onclick="switchGame('tictactoe')" class="px-2.5 py-1 bg-gray-900 hover:bg-blue-900/40 border border-gray-800 text-[11px] text-gray-300 rounded-lg transition font-mono">⭕ TicTac Game</button>
+                        </div>
+
+                        <div class="relative flex items-center">
+                            <input id="aiPromptInput" type="text" placeholder='Type "snake", "pong" or custom prompt...' 
+                                   onkeypress="if(event.key === 'Enter') submitCustomPrompt()"
+                                   class="w-full bg-gray-900 border border-gray-800 text-xs text-white rounded-xl pl-3 pr-10 py-2.5 focus:outline-none focus:border-blue-500 font-mono">
+                            <button onclick="submitCustomPrompt()" class="absolute right-2 p-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Canvas & Interactive Player Area (Right Side) -->
+                <div class="lg:col-span-8 flex flex-col justify-between bg-black/80">
+                    
+                    <!-- Game Canvas Container -->
+                    <div class="p-4 flex-1 flex flex-col items-center justify-center relative min-h-[350px]">
+                        
+                        <!-- Top Controls Overlay -->
+                        <div class="w-full flex items-center justify-between mb-3 px-2 font-mono text-xs">
+                            <span id="currentGameTitle" class="text-emerald-400 font-bold flex items-center gap-2">
+                                🎮 Game Active: Snake Game
+                            </span>
+                            
+                            <div class="flex items-center gap-2">
+                                <button onclick="startGame()" class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition shadow-lg flex items-center gap-1.5">
+                                    ▶ Start Game
+                                </button>
+                                <button onclick="resetCurrentGame()" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition">
+                                    🔄 Reset
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Game Display Canvas Box -->
+                        <div class="w-full bg-gray-950 border border-gray-800 rounded-xl p-2 flex items-center justify-center min-h-[280px] shadow-inner relative overflow-hidden">
+                            <!-- HTML Canvas for Games -->
+                            <canvas id="gameCanvas" width="500" height="260" class="max-w-full rounded bg-black"></canvas>
+                            
+                            <!-- Overlay DOM Container for Tic Tac Toe -->
+                            <div id="domGameContainer" class="hidden absolute inset-0 bg-gray-950 flex flex-col items-center justify-center p-4">
+                                <h3 class="text-base font-bold text-blue-400 font-mono mb-2">❌⭕ Tic-Tac-Toe Game</h3>
+                                <div id="tttBoard" class="grid grid-cols-3 gap-2 w-48 h-48 mb-3"></div>
+                                <div id="tttStatus" class="text-xs font-mono text-emerald-400 font-bold">Player X's Turn</div>
+                            </div>
+                        </div>
+
+                        <!-- Key Control Guide -->
+                        <div class="w-full mt-3 flex items-center justify-between text-[11px] font-mono text-gray-400 px-2">
+                            <span id="controlGuide">🎮 Controls: Arrow Keys or W-A-S-D to Move</span>
+                            <span id="scoreDisplay" class="text-blue-400 font-bold">Score: 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Workspace Toggle Output -->
+                    <div class="border-t border-gray-800/80 bg-gray-950 p-3 font-mono text-xs">
+                        <div class="flex items-center justify-between text-gray-400 mb-2">
+                            <span class="text-blue-400 font-semibold flex items-center gap-1.5">
+                                📄 Source Code View (Auto-Generated)
+                            </span>
+                            <span class="text-[10px] text-gray-500">HTML5 / JavaScript Engine</span>
+                        </div>
+                        <textarea id="codeView" readonly spellcheck="false" class="w-full h-[90px] bg-slate-950 border border-gray-800 rounded-lg p-2 font-mono text-[11px] text-blue-300 resize-none focus:outline-none">// Select any game above or click "Start Game" to view code execution</textarea>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="featurlex flex-wrap items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
                     <span class="w-3 h-3 rounded-full bg-red-500/90 inline-block"></span>
                     <span class="w-3 h-3 rounded-full bg-yellow-500/90 inline-block"></span>
